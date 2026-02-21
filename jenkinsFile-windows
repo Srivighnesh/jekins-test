@@ -1,39 +1,32 @@
 pipeline {
-    agent any   // use built-in Windows node
-
-    triggers {
-        pollSCM('* * * * *')
-    }
+    agent any
 
     stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Srivighnesh/jekins-test.git'
+            }
+        }
 
         stage('Build') {
             steps {
                 echo "Building.."
-                bat '''
-                cd myapp
-                python -m pip install -r requirements.txt
-                '''
+                bat 'dir'
             }
         }
 
         stage('Test') {
             steps {
                 echo "Testing.."
-                bat '''
-                cd myapp
-                python hello.py
-                python hello.py --name=Brad
-                '''
+                bat 'python helloworld.py'
             }
         }
 
         stage('Deliver') {
             steps {
                 echo "Deliver...."
-                bat '''
-                echo doing delivery stuff..
-                '''
+                bat 'echo Delivery step completed'
             }
         }
     }
